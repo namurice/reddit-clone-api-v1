@@ -101,6 +101,26 @@ namespace Reddit.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Post>> PostPost(CreatePostDto createPostDto)
+        {
+            var post = _mapper.toPost(createPostDto);
+
+            // Check if the community exists
+            var community = await _context.Communities.FindAsync(createPostDto.CommunityId);
+            if (community == null)
+            {
+                return NotFound($"Community with ID {createPostDto.CommunityId} not found.");
+            }
+
+            // Assuming there is a navigation property in Post pointing to Community
+            post.CommunityId = createPostDto.CommunityId;
+            _context.Posts.Add(post);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPost", new { id = post.Id }, post);
+        }
+
         private bool PostExists(int id)
         {
             return _context.Posts.Any(e => e.Id == id);

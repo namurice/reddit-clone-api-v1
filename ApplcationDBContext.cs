@@ -12,5 +12,7 @@ namespace Reddit
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Community> Community { get; set; }
+
     }
 }
