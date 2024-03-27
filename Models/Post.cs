@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reddit.Models
 {
@@ -12,5 +13,9 @@ namespace Reddit.Models
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public int  Upvotes { get; set; } = 0;
         public int Downvotes { get; set; } = 0;
+        [ForeignKey("Community")]
+        public int CommunityId { get; set; }
+        public virtual Community Community { get; set; }
+        
     }
 }

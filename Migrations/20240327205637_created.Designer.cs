@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reddit;
 
@@ -10,9 +11,11 @@ using Reddit;
 namespace Reddit.Migrations
 {
     [DbContext(typeof(ApplcationDBContext))]
-    partial class ApplcationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240327205637_created")]
+    partial class created
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -71,7 +74,7 @@ namespace Reddit.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CommunityId")
+                    b.Property<int?>("CommunityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
@@ -108,13 +111,9 @@ namespace Reddit.Migrations
 
             modelBuilder.Entity("Reddit.Models.Post", b =>
                 {
-                    b.HasOne("Reddit.Models.Community", "Community")
+                    b.HasOne("Reddit.Models.Community", null)
                         .WithMany("Posts")
-                        .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Community");
+                        .HasForeignKey("CommunityId");
                 });
 
             modelBuilder.Entity("Reddit.Models.Community", b =>
